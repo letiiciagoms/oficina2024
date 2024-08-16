@@ -31,9 +31,21 @@ public class Player : MonoBehaviour
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += movement * Time.deltaTime * Speed;
 
-        if(Input.GetAxis("Horizontal") > 0)
+        if(Input.GetAxis("Horizontal") > 0f)
         {
-            anim.SetBool("walk", true);
+            anim.SetBool("Walk", true);
+            transform.eulerAngles = new Vector3(0f,0f,0f);
+        }
+
+         if(Input.GetAxis("Horizontal") < 0f)
+        {
+            anim.SetBool("Walk", true);
+            transform.eulerAngles = new Vector3(0f,180f,0f);
+        }
+
+        if(Input.GetAxis("Horizontal") == 0f)
+        {
+            anim.SetBool("Walk", false);
         }
          
     }
@@ -46,6 +58,7 @@ public class Player : MonoBehaviour
             {
                  rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                  doubleJump = true;
+                 anim.SetBool("Jump", true);
             }
 
             else
@@ -65,6 +78,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.layer == 8)
         {
             isJumping = false;
+            anim.SetBool("Jump", false);
         }
     }
 
